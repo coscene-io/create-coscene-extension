@@ -1,6 +1,6 @@
-# create-foxglove-extension
+# create-coscene-extension
 
-[![npm version](https://img.shields.io/npm/v/create-foxglove-extension.svg?style=flat)](https://www.npmjs.com/package/create-foxglove-extension)
+[![npm version](https://img.shields.io/npm/v/create-coscene-extension.svg?style=flat)](https://www.npmjs.com/package/create-coscene-extension)
 
 ## Introduction
 
@@ -16,7 +16,7 @@ into the directory where you keep source code (ex: `cd ~/Code`) and run the foll
 command:
 
 ```sh
-npm init foxglove-extension@latest helloworld
+npm init coscene-extension@latest helloworld
 ```
 
 Feel free to choose an extension name other than _helloworld_. Otherwise, this will create
@@ -91,11 +91,11 @@ feedback, and stay up to date on what our team is working on.
 
 ## Developer information
 
-Information on developing `create-foxglove-extension` itself.
+Information on developing `create-coscene-extension` itself.
 
 ### Build and Run Locally
 
-Build the `create-foxglove-extension` package locally with:
+Build the `create-coscene-extension` package locally with:
 
 ```bash
 npm pack
@@ -104,13 +104,13 @@ npm pack
 Run the extension generator:
 
 ```bash
- npx create-foxglove-extension-{VERSION}.tgz example-extension-name
+ npx create-coscene-extension-{VERSION}.tgz example-extension-name
 ```
 
 ### Release process
 
 1. Bump the version in package.json, and merge to main
-2. [Create a new release](https://github.com/foxglove/create-foxglove-extension/releases/new)
+2. [Create a new release](https://github.com/foxglove/create-coscene-extension/releases/new)
 3. Create a tag for the version above, with a leading "v" (`v0.0.0`)
 4. Generate release notes
 5. Publish the release

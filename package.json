@@ -17,8 +17,8 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
-    "create-coscene-extension": "dist/bin/create-coscene-extension.js",
-    "foxglove-extension": "dist/bin/foxglove-extension.js"
+    "coscene-extension": "dist/bin/coscene-extension.js",
+    "create-coscene-extension": "dist/bin/create-coscene-extension.js"
   },
   "files": [
     "dist",

@@ -2182,8 +2182,8 @@ __metadata:
     typescript-eslint: "npm:8.15.0"
     webpack: "npm:5.96.1"
   bin:
+    coscene-extension: dist/bin/coscene-extension.js
     create-coscene-extension: dist/bin/create-coscene-extension.js
-    foxglove-extension: dist/bin/foxglove-extension.js
   languageName: unknown
   linkType: soft
 
