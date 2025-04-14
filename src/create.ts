@@ -12,7 +12,7 @@ const DEPENDENCIES = [
   "@coscene/extension@^1",
   "@types/react@^18",
   "@types/react-dom@^18",
-  // "create-coscene-extension@^1",
+  "create-cosceeare-extension@^1",
   "eslint@^9",
   "prettier@^3",
   "react@^18",
