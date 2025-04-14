@@ -10,7 +10,7 @@
   "keywords": [],
   "scripts": {
     "build": "coscene-extension build",
-    "foxglove:prepublish": "coscene-extension build --mode production",
+    "coscene:prepublish": "coscene-extension build --mode production",
     "lint:ci": "eslint --report-unused-disable-directives .",
     "lint": "eslint --report-unused-disable-directives --fix .",
     "local-install": "coscene-extension install",

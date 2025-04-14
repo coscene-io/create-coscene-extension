@@ -10,7 +10,7 @@
   "keywords": [],
   "scripts": {
     "build": "coscene-extension build",
-    "foxglove:prepublish": "coscene-extension build --mode production",
+    "coscene:prepublish": "coscene-extension build --mode production",
     "lint": "eslint .",
     "lint:ci": "eslint .",
     "lint:fix": "eslint --fix .",

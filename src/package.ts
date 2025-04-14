@@ -33,7 +33,7 @@ export interface PackageManifest {
   main: string;
   files?: string[];
   scripts?: {
-    "foxglove:prepublish"?: string;
+    "coscene:prepublish"?: string;
   };
 }
 
@@ -188,17 +188,17 @@ async function readManifest(extensionPath: string): Promise<PackageManifest> {
 }
 
 async function prepublish(extensionPath: string, pkg: PackageManifest): Promise<void> {
-  const script = pkg.scripts?.["foxglove:prepublish"];
+  const script = pkg.scripts?.["coscene:prepublish"];
   if (script == undefined) {
     return;
   }
 
-  info(`Executing prepublish script 'npm run foxglove:prepublish'...`);
+  info(`Executing prepublish script 'npm run coscene:prepublish'...`);
 
   await new Promise<void>((resolve, reject) => {
     const tool = "npm";
     const cwd = extensionPath;
-    const child = spawn(tool, ["run", "foxglove:prepublish"], {
+    const child = spawn(tool, ["run", "coscene:prepublish"], {
       cwd,
       shell: true,
       stdio: "inherit",
