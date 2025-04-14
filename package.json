@@ -1,24 +1,26 @@
 {
-  "name": "create-foxglove-extension",
+  "name": "create-coscene-extension",
   "version": "1.0.4",
-  "publisher": "foxglove",
-  "description": "Create and package Foxglove extensions",
+  "publisher": "coscene",
+  "description": "Create and package coScene extensions",
   "license": "MIT",
   "keywords": [
-    "foxglove",
+    "coScene",
+    "coStudio",
+    "Honeybee",
     "robotics",
     "ros",
     "visualization"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/foxglove/create-foxglove-extension.git"
+    "url": "https://github.com/coscene-io/create-coscene-extension.git"
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
-    "create-foxglove-extension": "dist/bin/create-foxglove-extension.js",
-    "foxglove-extension": "dist/bin/foxglove-extension.js"
+    "coscene-extension": "dist/bin/coscene-extension.js",
+    "create-coscene-extension": "dist/bin/create-coscene-extension.js"
   },
   "files": [
     "dist",
