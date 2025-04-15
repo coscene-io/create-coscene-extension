@@ -143,6 +143,8 @@ export async function publishCommand(options: PublishOptions): Promise<void> {
     "description": "${pkg.description}",
     "publisher": "${pkg.namespaceOrPublisher}",
     "homepage": "${homepage}",
+    "readme": "${readme}",
+    "changelog": "${changelog}",
     "license": "${license}",
     "version": "${version}",
     "sha256sum": "${sha256sum}",
