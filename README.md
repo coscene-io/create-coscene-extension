@@ -39,7 +39,7 @@ npm run local-install
 ```
 
 This should create a folder under your home directory such as
-`~/.foxglove-studio/extensions/unknown.helloworld-0.0.0` containing your compiled
+`~/.coStudio/extensions/unknown.helloworld-0.0.0` containing your compiled
 extension. Start Foxglove. If everything succeeded, you should be able to add a new
 panel in Foxglove named _"ExamplePanel"_. Each time you make a change to your
 extension, you will need to run `npm run local-install` again to build it and copy the
@@ -76,7 +76,7 @@ npm run package
 This will produce a _.foxe_ file such as `helloworld-0.0.0.foxe`. This is essentially a
 ZIP archive containing your extension manifest and compiled code that can be opened by the
 Foxglove application, which will unpack it and install it to the
-`~/.foxglove-studio/extensions` folder. Stay tuned for future instructions on how to
+`~/.coStudio/extensions` folder. Stay tuned for future instructions on how to
 publish Foxglove extensions to a registry so other users can easily search for and
 install your extension.
 
