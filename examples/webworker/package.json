@@ -1,8 +1,8 @@
 {
-  "name": "foxglove-example-webworker-extension-panel",
-  "displayName": "Foxglove Example Webworker Extension Panel",
+  "name": "coscene-example-webworker-extension-panel",
+  "displayName": "coScene Example Webworker Extension Panel",
   "description": "",
-  "publisher": "Foxglove",
+  "publisher": "coScene",
   "version": "1.1.0",
   "license": "MIT",
   "main": "./dist/extension.js",

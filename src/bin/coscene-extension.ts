@@ -39,20 +39,6 @@ program
     main(installCommand({ cwd }));
   });
 
-program
-  .command("publish")
-  .description(
-    "Create an extensions.json entry for a released extension. This can be added to the https://github.com/foxglove/extension-registry repository",
-  )
-  .option("--foxe <foxe>", "URL of the published .foxe file")
-  .option("--cwd [cwd]", "Directory containing the extension package.json file")
-  .option("--version [version]", "Version of the published .foxe file")
-  .option("--readme [readme]", "URL of the extension README.md file")
-  .option("--changelog [changelog]", "URL of the extension CHANGELOG.md file")
-  .action((options: PublishOptions) => {
-    main(publishCommand(options));
-  });
-
 program.on("command:*", ([_cmd]: string) => {
   program.outputHelp({ error: true });
   process.exit(1);

@@ -16,7 +16,7 @@ import { info } from "./log";
 const cpR = promisify(ncp);
 
 // A fixed date is used for zip file modification timestamps to
-// produce deterministic .foxe files. Foxglove birthday.
+// produce deterministic .foxe files.
 const MOD_DATE = new Date("2021-02-03");
 
 export interface PackageManifest {
@@ -143,8 +143,6 @@ export async function publishCommand(options: PublishOptions): Promise<void> {
     "description": "${pkg.description}",
     "publisher": "${pkg.namespaceOrPublisher}",
     "homepage": "${homepage}",
-    "readme": "https://raw.githubusercontent.com/foxglove/studio-extension-turtlesim/main/README.md",
-    "changelog": "https://raw.githubusercontent.com/foxglove/studio-extension-turtlesim/main/CHANGELOG.md",
     "license": "${license}",
     "version": "${version}",
     "sha256sum": "${sha256sum}",

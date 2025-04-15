@@ -1,8 +1,8 @@
 {
-  "name": "foxglove-example-message-converter",
-  "displayName": "Foxglove Example Message Converter",
+  "name": "coscene-example-message-converter",
+  "displayName": "coScene Example Message Converter",
   "description": "",
-  "publisher": "Foxglove",
+  "publisher": "coScene",
   "version": "1.1.1",
   "license": "MIT",
   "main": "./dist/extension.js",

@@ -1,8 +1,8 @@
 {
   "name": "panel-settings",
-  "displayName": "Foxglove Panel Settings Example",
+  "displayName": "coScene Panel Settings Example",
   "description": "This is an example of the use of the settings api in an extension panel.",
-  "publisher": "foxglove",
+  "publisher": "coScene",
   "homepage": "",
   "version": "0.0.1",
   "license": "UNLICENSED",
