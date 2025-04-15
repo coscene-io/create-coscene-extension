@@ -1,9 +1,9 @@
 {
   "name": "monaco-editor-example",
-  "displayName": "Foxglove Monaco Editor Example",
-  "description": "Example of embedding the Monoco editor in a Foxglove extension panel.",
-  "publisher": "Foxglove",
-  "homepage": "https://foxglove.dev",
+  "displayName": "coScene Monaco Editor Example",
+  "description": "Example of embedding the Monoco editor in a coScene extension panel.",
+  "publisher": "coScene",
+  "homepage": "https://www.coscene.cn",
   "version": "1.0.0",
   "license": "MIT",
   "main": "./dist/extension.js",
