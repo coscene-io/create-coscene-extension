@@ -1,7 +1,7 @@
-import { PanelExtensionContext, RenderState } from "@foxglove/extension";
+import { PanelExtensionContext, RenderState } from "@coscene/extension";
+import ReactJson from "@microlink/react-json-view";
 import { useCallback, useEffect, useLayoutEffect, useState, ReactElement } from "react";
 import { createRoot } from "react-dom/client";
-import ReactJson from "react-json-view";
 
 type State = {
   serviceName: string;

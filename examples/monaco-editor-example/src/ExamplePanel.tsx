@@ -1,4 +1,4 @@
-import { PanelExtensionContext, Topic, MessageEvent } from "@foxglove/extension";
+import { PanelExtensionContext, Topic, MessageEvent } from "@coscene/extension";
 import { useLayoutEffect, useEffect, useState, ReactElement } from "react";
 import { createRoot } from "react-dom/client";
 
