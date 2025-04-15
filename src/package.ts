@@ -16,7 +16,7 @@ import { info } from "./log";
 const cpR = promisify(ncp);
 
 // A fixed date is used for zip file modification timestamps to
-// produce deterministic .foxe files. Foxglove birthday.
+// produce deterministic .foxe files.
 const MOD_DATE = new Date("2021-02-03");
 
 export interface PackageManifest {
@@ -143,8 +143,8 @@ export async function publishCommand(options: PublishOptions): Promise<void> {
     "description": "${pkg.description}",
     "publisher": "${pkg.namespaceOrPublisher}",
     "homepage": "${homepage}",
-    "readme": "https://raw.githubusercontent.com/foxglove/studio-extension-turtlesim/main/README.md",
-    "changelog": "https://raw.githubusercontent.com/foxglove/studio-extension-turtlesim/main/CHANGELOG.md",
+    "readme": "${readme}",
+    "changelog": "${changelog}",
     "license": "${license}",
     "version": "${version}",
     "sha256sum": "${sha256sum}",
@@ -290,16 +290,16 @@ async function install(
   // We look for this app directory as a signal that the user installed the snap package rather than
   // the deb package. If we detect a snap installation directory, we install to the snap path and
   // exit.
-  const snapAppDir = join(homedir(), "snap", "foxglove-studio", "current");
+  const snapAppDir = join(homedir(), "snap", "coStudio", "current");
   if (await isDirectory(snapAppDir)) {
     info(`Detected snap install at ${snapAppDir}`);
-    const extensionDir = join(snapAppDir, ".foxglove-studio", "extensions", dirName);
+    const extensionDir = join(snapAppDir, ".coStudio", "extensions", dirName);
     await copyFiles(files, extensionDir);
     return;
   }
 
   // If there is no snap install present then we install to the home directory
-  const defaultExtensionDir = join(homedir(), ".foxglove-studio", "extensions", dirName);
+  const defaultExtensionDir = join(homedir(), ".coStudio", "extensions", dirName);
   await copyFiles(files, defaultExtensionDir);
 }
 
