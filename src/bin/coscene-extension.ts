@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { program, Option } from "commander";
 
-import { buildCommand, installCommand, packageCommand, publishCommand, PublishOptions } from "..";
+import { buildCommand, installCommand, packageCommand } from "..";
 import { fatal } from "../log";
 
 function main(task: Promise<void>): void {
