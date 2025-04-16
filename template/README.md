@@ -22,7 +22,7 @@ Open the coStudio (or `ctrl-R` to refresh if it is already open). Your extension
 
 ## Package
 
-Extensions are packaged into `.foxe` files. These files contain the metadata (package.json) and the build code for the extension.
+Extensions are packaged into `.coe` files. These files contain the metadata (package.json) and the build code for the extension.
 
 Before packaging, make sure to set `name`, `publisher`, `version`, and `description` fields in _package.json_. When ready to distribute the extension, run:
 
@@ -30,4 +30,4 @@ Before packaging, make sure to set `name`, `publisher`, `version`, and `descript
 npm run package
 ```
 
-This command will package the extension into a `.foxe` file in the local directory.
+This command will package the extension into a `.coe` file in the local directory.

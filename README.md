@@ -73,7 +73,7 @@ you are ready to distribute your extension, run:
 npm run package
 ```
 
-This will produce a _.foxe_ file such as `helloworld-0.0.0.foxe`. This is essentially a
+This will produce a _.coe_ file such as `helloworld-0.0.0.coe`. This is essentially a
 ZIP archive containing your extension manifest and compiled code that can be opened by the
 coScene application, which will unpack it and install it to the
 `~/.coStudio/extensions` folder. Stay tuned for future instructions on how to

@@ -23,7 +23,7 @@ program
 program
   .command("package")
   .description("Packages an extension")
-  .option("-o, --out [path]", "Output .foxe extension file to [path] location")
+  .option("-o, --out [path]", "Output .coe extension file to [path] location")
   .option("--cwd [cwd]", "Directory to run the package command in")
   .action(({ out, cwd }) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

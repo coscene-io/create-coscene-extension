@@ -28,7 +28,7 @@ extension is installed and available within the app.
 
 ## Package
 
-Extensions are packaged into `.foxe` files. These files contain the metadata
+Extensions are packaged into `.coe` files. These files contain the metadata
 (package.json) and the build code for the extension.
 
 Before packaging, make sure to set `name`, `publisher`, `version`, and `description`
@@ -38,4 +38,4 @@ fields in _package.json_. When ready to distribute the extension, run:
 npm run package
 ```
 
-This command will package the extension into a `.foxe` file in the local directory.
+This command will package the extension into a `.coe` file in the local directory.
