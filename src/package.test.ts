@@ -49,7 +49,7 @@ describe("packageCommand", () => {
     await packageCommand({ cwd: tmpdir });
     const contents = await readdir(tmpdir, { withFileTypes: true });
 
-    const bundle = contents.find((file) => file.name === "test.test-1.0.0.foxe");
+    const bundle = contents.find((file) => file.name === "test.test-1.0.0.coe");
     const bundlePath = path.join(tmpdir, bundle!.name);
     const bundleData = await readFile(bundlePath);
     const archive = await JSZip.loadAsync(bundleData);

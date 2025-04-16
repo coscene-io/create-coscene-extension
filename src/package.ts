@@ -16,7 +16,7 @@ import { info } from "./log";
 const cpR = promisify(ncp);
 
 // A fixed date is used for zip file modification timestamps to
-// produce deterministic .foxe files.
+// produce deterministic .coe files.
 const MOD_DATE = new Date("2021-02-03");
 
 export interface PackageManifest {
@@ -47,7 +47,7 @@ export interface InstallOptions {
 }
 
 export interface PublishOptions {
-  foxe?: string;
+  coe?: string;
   cwd?: string;
   version?: string;
   readme?: string;
@@ -70,10 +70,10 @@ export async function packageCommand(options: PackageOptions = {}): Promise<void
   const files = await collect(extensionPath, pkg);
 
   const packagePath = normalize(
-    options.packagePath ?? join(extensionPath, getPackageDirname(pkg) + ".foxe"),
+    options.packagePath ?? join(extensionPath, getPackageDirname(pkg) + ".coe"),
   );
 
-  await writeFoxe(extensionPath, files, packagePath);
+  await writeCoe(extensionPath, files, packagePath);
 }
 
 export async function installCommand(options: InstallOptions = {}): Promise<void> {
@@ -89,9 +89,9 @@ export async function installCommand(options: InstallOptions = {}): Promise<void
 }
 
 export async function publishCommand(options: PublishOptions): Promise<void> {
-  const foxeUrl = options.foxe;
-  if (foxeUrl == undefined) {
-    throw new Error(`--foxe <foxe> Published .foxe file URL is required`);
+  const coeUrl = options.coe;
+  if (coeUrl == undefined) {
+    throw new Error(`--coe <coe> Published .coe file URL is required`);
   }
 
   // Open the package.json file
@@ -129,11 +129,11 @@ export async function publishCommand(options: PublishOptions): Promise<void> {
     throw new Error(`Could not infer CHANGELOG.md URL. Use --changelog <url>`);
   }
 
-  // Fetch the .foxe file and compute the SHA256 hash
-  const res = await fetch(foxeUrl);
-  const foxeData = await res.arrayBuffer();
+  // Fetch the .coe file and compute the SHA256 hash
+  const res = await fetch(coeUrl);
+  const coeData = await res.arrayBuffer();
   const hash = createHash("sha256");
-  const sha256sum = hash.update(new Uint8Array(foxeData)).digest("hex");
+  const sha256sum = hash.update(new Uint8Array(coeData)).digest("hex");
 
   // Print the extension.json entry
   info(`
@@ -148,7 +148,7 @@ export async function publishCommand(options: PublishOptions): Promise<void> {
     "license": "${license}",
     "version": "${version}",
     "sha256sum": "${sha256sum}",
-    "foxe": "${foxeUrl}",
+    "coe": "${coeUrl}",
     "keywords": ${keywords}
   }
 `);
@@ -255,7 +255,7 @@ async function collect(extensionPath: string, pkg: PackageManifest): Promise<str
     .sort();
 }
 
-async function writeFoxe(baseDir: string, files: string[], outputFile: string): Promise<void> {
+async function writeCoe(baseDir: string, files: string[], outputFile: string): Promise<void> {
   const zip = new JSZip();
   for (const file of files) {
     if (await isDirectory(join(baseDir, file))) {
