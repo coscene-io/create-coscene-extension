@@ -1,5 +1,5 @@
 import MonacoEditor from "@monaco-editor/react";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 
 const SourceCode = `
   type MyType = {
@@ -16,7 +16,7 @@ const SourceCode = `
 /**
  * Our main editor component. For now we just wrap the MonacoEditor component.
  */
-export function Editor(): JSX.Element {
+export function Editor(): ReactElement {
   const [value, setValue] = useState<undefined | string>(SourceCode);
 
   return (

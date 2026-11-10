@@ -1,9 +1,9 @@
-import { readdir, readFile } from "fs/promises";
+import { readdir, readFile, realpath } from "fs/promises";
 import * as path from "path";
 import { dirSync, setGracefulCleanup } from "tmp";
 
+import { buildCommand } from "./build";
 import { createCommand } from "./create";
-import { packageCommand } from "./package";
 
 let tmpdir: string;
 
@@ -16,9 +16,11 @@ jest.mock("./log.ts", () => ({
   }),
 }));
 
-beforeAll(() => {
+beforeAll(async () => {
   setGracefulCleanup();
-  tmpdir = dirSync({ unsafeCleanup: true }).name;
+  // macOS exposes its temp directory through /var -> /private/var. Use one path for
+  // TypeScript's rootDir and webpack's symlink-resolved module paths.
+  tmpdir = await realpath(dirSync({ unsafeCleanup: true }).name);
 });
 
 describe("createCommand", () => {
@@ -46,10 +48,19 @@ describe("createCommand", () => {
     expect(packageJsonStr).not.toContain("${NAME}");
     expect(packageJsonStr).toContain("extension-test");
     const packageJson = JSON.parse(packageJsonStr) as Record<string, unknown>;
-    expect(typeof (packageJson.devDependencies as Record<string, string>).react).toEqual("string");
+    const dependencies = packageJson.devDependencies as Record<string, string>;
+    expect(dependencies["@coscene/extension"]).toMatch(/^1\./);
+    expect(dependencies).toMatchObject({
+      "@types/react": "19.3.0",
+      "@types/react-dom": "19.3.0",
+      react: "19.3.1",
+      "react-dom": "19.3.1",
+    });
 
-    // make sure the skeleton package is buildable and packagable
-    await packageCommand({ cwd: destDir });
+    // Exercise the current source instead of the CLI downloaded by the generated project.
+    await buildCommand({ cwd: destDir, mode: "development" });
+
+    await buildCommand({ cwd: destDir, mode: "production" });
 
     // make sure we don't generate unneeded .d.ts files
     const builtContents = await readdir(path.join(destDir, "dist"), { withFileTypes: true });

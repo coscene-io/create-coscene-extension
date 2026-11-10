@@ -10,13 +10,13 @@ import { info } from "./log";
 const DEPENDENCIES = [
   "@foxglove/eslint-plugin@^2",
   "@coscene/extension@^1",
-  "@types/react@^18",
-  "@types/react-dom@^18",
+  "@types/react@19.3.0",
+  "@types/react-dom@19.3.0",
   "create-coscene-extension@^1",
   "eslint@^9",
   "prettier@^3",
-  "react@^18",
-  "react-dom@^18",
+  "react@19.3.1",
+  "react-dom@19.3.1",
   "typescript@^5",
 ];
 

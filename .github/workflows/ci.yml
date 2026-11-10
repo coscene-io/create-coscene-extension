@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_call:
   push:
     branches: main
     tags: v*
@@ -18,7 +19,7 @@ jobs:
       - name: Configure Node.js
         uses: actions/setup-node@v4.1.0
         with:
-          node-version: 20.x
+          node-version: 24.x
           cache: yarn
 
       - run: yarn install --immutable
@@ -35,7 +36,7 @@ jobs:
       - name: Configure Node.js
         uses: actions/setup-node@v4.1.0
         with:
-          node-version: 20.x
+          node-version: 24.x
           cache: yarn
 
       - run: yarn install --immutable
@@ -48,8 +49,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-22.04
-          - ubuntu-latest
+          - ubuntu-24.04
+          - macos-latest
           - windows-2022
 
     name: e2e (${{ matrix.os }})
@@ -57,36 +58,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
 
-      # On windows we need to run `corepack enable` after setup-node and on linux we need
-      # to run it before. On linux it is ok to run it after as well.
-      - run: corepack enable
-        if: matrix.os == 'windows-2022'
-
       - name: Configure Node.js
         uses: actions/setup-node@v4.1.0
         with:
-          node-version: 20.x
+          node-version: 24.x
 
       - run: corepack enable
 
       - run: yarn install --immutable
 
-      # pack into tarball so we can use it with npx
+      # The test installs this tarball in temporary projects. Nothing needs to be published first.
       - run: yarn pack
 
-      - name: create sample extension
-        run: npx package.tgz sample
-
-      # install local package.tgz to use the coscene-scripts from this build
-      - run: npm install ../package.tgz
-        working-directory: sample
-
-      # confirm that the generated extension code passes lint
-      - name: lint generated extension code
-        working-directory: sample
-        run: npm run lint
-
-      # confirm that the generated extension code can be packaged
-      - name: package generated extension
-        working-directory: sample
-        run: npm run package
+      - name: Verify generated extension and all examples with this tarball
+        run: yarn test:e2e package.tgz --examples

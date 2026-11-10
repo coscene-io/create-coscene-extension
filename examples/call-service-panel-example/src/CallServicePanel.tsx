@@ -22,6 +22,10 @@ function CallServicePanel({ context }: { context: PanelExtensionContext }): Reac
       setState((oldState) => ({ ...oldState, colorScheme: renderState.colorScheme }));
       setRenderDone(() => done);
     };
+
+    return () => {
+      context.onRender = undefined;
+    };
   }, [context]);
 
   useEffect(() => {

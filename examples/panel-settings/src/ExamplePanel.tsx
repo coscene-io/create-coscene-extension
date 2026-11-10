@@ -211,6 +211,10 @@ function ExamplePanel({ context }: { context: PanelExtensionContext }): ReactEle
     if (state.data.topic) {
       context.subscribe([{ topic: state.data.topic }]);
     }
+
+    return () => {
+      context.onRender = undefined;
+    };
   }, [context, state.data.topic]);
 
   // invoke the done callback once the render is complete

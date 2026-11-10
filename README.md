@@ -84,9 +84,18 @@ install your extension.
 
 You can find examples of different kinds of extensions in the `./examples` directory.
 
+Version 1.1.0 generates React 19.3.1 panels. See the [React 19 migration guide](docs/REACT_19_MIGRATION.md) for existing panels, bundling requirements, and validation steps. Extensions continue to bundle their own React renderer and use the `@coscene/extension` SDK.
+
 ## Developer information
 
 Information on developing `create-coscene-extension` itself.
+
+To validate the current package and all examples before publishing:
+
+```sh
+yarn pack --out package.tgz
+yarn test:e2e package.tgz --examples
+```
 
 ### Build and Run Locally
 
