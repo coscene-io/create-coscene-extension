@@ -1,5 +1,10 @@
-import MonacoEditor from "@monaco-editor/react";
+import MonacoEditor, { loader } from "@monaco-editor/react";
 import { ReactElement, useState } from "react";
+
+// Preserve the CDN runtime used by the previous loader instead of upgrading the editor with React.
+loader.config({
+  paths: { vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.33.0/min/vs" },
+});
 
 const SourceCode = `
   type MyType = {
