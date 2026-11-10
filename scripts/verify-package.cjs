@@ -200,6 +200,13 @@ async function verifyBundle(source, panelKind) {
 
 async function verifyProject(directory, panelKind) {
   run("npm", ["run", "build"], directory);
+  if (path.basename(directory) === "monaco-editor-example") {
+    assert.deepEqual(
+      fs.readdirSync(path.join(directory, "dist")).filter((file) => file.endsWith(".js")),
+      ["extension.js"],
+      "Monaco workers and lazy language modules must stay in the .coe entry point",
+    );
+  }
   await verifyBundle(fs.readFileSync(path.join(directory, "dist/extension.js"), "utf8"), panelKind);
   run("npm", ["run", "package"], directory);
   const archives = fs.readdirSync(directory).filter((file) => file.endsWith(".coe"));

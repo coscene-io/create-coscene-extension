@@ -9,7 +9,7 @@ npm install --save-dev --save-exact react@19.3.1 react-dom@19.3.1 @types/react@1
 npm install --save-dev create-coscene-extension@^1.1.0
 ```
 
-Commit the updated package manifest and lockfile together. Keep `react` and `react-dom` on the same version. Upgrade component libraries whose peer ranges exclude React 19; the Monaco example uses `@monaco-editor/react@4.7.0`. Its loader explicitly retains the previous CDN runtime, `monaco-editor@0.33.0`, and its installed editor peer matches that version. Loading the editor requires access to `cdn.jsdelivr.net`; the editor runtime is not part of the React upgrade. Both JSON-view examples use `@microlink/react-json-view@1.26.1`; the settings example's older 1.23.4 release pulled in Flux with a React 17 peer restriction.
+Commit the updated package manifest and lockfile together. Keep `react` and `react-dom` on the same version. Upgrade component libraries whose peer ranges exclude React 19; the Monaco example uses `@monaco-editor/react@4.7.0`. It retains the previous editor runtime, `monaco-editor@0.33.0`, and bundles the editor, workers, styles, and font into its `.coe` because the host CSP blocks the default CDN. Its webpack override keeps worker configuration local to this extension; it does not modify the host's `MonacoEnvironment`. The resulting archive is larger, but no network access is needed to open the editor. Both JSON-view examples use `@microlink/react-json-view@1.26.1`; the settings example's older 1.23.4 release pulled in Flux with a React 17 peer restriction.
 
 The retained Monaco distribution embeds DOMPurify 2.3.1. This React migration does not update that existing sanitizer; editor and sanitizer maintenance remains separate work.
 
