@@ -20,6 +20,8 @@ The retained Monaco distribution embeds DOMPurify 2.3.1. This React migration do
 - Replace removed APIs such as `ReactDOM.render`, `unmountComponentAtNode`, and `findDOMNode`. Replace function-component `defaultProps` with parameter defaults.
 - Stop calling the panel's render handler after disposal. The template clears `context.onRender` when its component unmounts. Finish each delivered render by calling its `done` callback after the corresponding React commit.
 
+Honeybee invalidates the context synchronously when removing or replacing a panel. Cleanup should release the extension's own resources; do not rely on `saveState`, `publish`, or other context mutations during cleanup. The host already schedules cleanup outside its React commit, so call `root.unmount()` directly in the returned callback without adding another deferred task.
+
 See the [React 19 upgrade guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide) for the remaining API and type changes.
 
 ## Keep React inside the extension bundle
