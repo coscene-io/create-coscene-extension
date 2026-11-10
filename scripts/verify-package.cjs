@@ -89,7 +89,47 @@ async function verifyBundle(source, panelKind) {
       throw new Error(`Unexpected external module: ${name}`);
     });
     assert.equal(typeof module.exports.activate, "function");
-    if (panelKind) {
+    if (panelKind === "message-converter") {
+      const converters = [];
+      module.exports.activate({
+        registerMessageConverter: (converter) => converters.push(converter),
+      });
+      assert.equal(converters.length, 1);
+      const [converter] = converters;
+      assert.equal(converter.fromSchemaName, "My.Gps");
+      assert.equal(converter.toSchemaName, "foxglove.LocationFix");
+      assert.deepEqual(JSON.parse(JSON.stringify(converter.converter({ lat: 0, lon: -45.5 }))), {
+        latitude: 0,
+        longitude: -45.5,
+      });
+    } else if (panelKind === "topic-aliasing") {
+      const callbacks = [];
+      module.exports.activate({ registerTopicAliases: (callback) => callbacks.push(callback) });
+      assert.equal(callbacks.length, 1);
+      const [aliases] = callbacks;
+      const defaultAliases = aliases({ topics: [], globalVariables: {} });
+      assert.deepEqual(JSON.parse(JSON.stringify(defaultAliases)), [
+        { sourceTopicName: "/CAM_FRONT/image_rect_compressed", name: "/selected_camera_image" },
+        { sourceTopicName: "/imu", name: "/aliased_imu" },
+        { sourceTopicName: "/odom", name: "/aliased_odom" },
+      ]);
+      const selectedAliases = aliases({
+        topics: [{ name: "/CAM_REAR/Image" }],
+        globalVariables: { camera: "REAR" },
+      });
+      assert.equal(selectedAliases[0].sourceTopicName, "/CAM_REAR/image_rect_compressed");
+      assert.deepEqual(JSON.parse(JSON.stringify(selectedAliases.at(-1))), {
+        sourceTopicName: "/CAM_REAR/Image",
+        name: "/bulk_aliases/cam_rear/image",
+      });
+    } else if (panelKind === "webworker") {
+      const panels = [];
+      module.exports.activate({ registerPanel: (panel) => panels.push(panel) });
+      assert.equal(panels.length, 1);
+      assert.equal(panels[0].name, "Webworker Demo");
+      assert.equal(typeof panels[0].initPanel, "function");
+      // Worker creation, messages, and termination are checked in the Honeybee browser harness.
+    } else if (panelKind === "template" || panelKind === "settings") {
       let registration;
       module.exports.activate({ registerPanel: (panel) => (registration = panel) });
       assert.ok(registration);
@@ -214,7 +254,13 @@ async function main() {
       });
       run("npm", ["ci"], destination);
       installCurrentCli(destination);
-      await verifyProject(destination, name === "panel-settings" ? "settings" : undefined);
+      const panelKind =
+        name === "panel-settings"
+          ? "settings"
+          : ["message-converter", "topic-aliasing", "webworker"].includes(name)
+            ? name
+            : undefined;
+      await verifyProject(destination, panelKind);
     }
   }
   console.log(`All package checks passed. Artifacts: ${output}`);
