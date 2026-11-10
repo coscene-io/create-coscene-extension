@@ -248,7 +248,13 @@ async function main() {
 
   if (includeExamples) {
     const examples = path.join(repository, "examples");
-    for (const name of fs.readdirSync(examples).sort()) {
+    // Exercise the worker compiler first so platform-specific build failures surface early.
+    const names = fs.readdirSync(examples).sort();
+    const orderedExamples = [
+      "monaco-editor-example",
+      ...names.filter((name) => name !== "monaco-editor-example"),
+    ];
+    for (const name of orderedExamples) {
       const source = path.join(examples, name);
       if (!fs.statSync(source).isDirectory()) continue;
       const destination = path.join(output, name);

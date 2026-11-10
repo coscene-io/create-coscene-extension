@@ -11,11 +11,10 @@ module.exports = {
         loader: path.resolve(__dirname, "monacoEnvironmentLoader.cjs"),
       },
       {
-        test: /\.worker\.ts$/,
-        use: [
-          { loader: "worker-loader", options: { inline: "no-fallback" } },
-          { loader: "ts-loader" },
-        ],
+        test: /\.worker\.js$/,
+        include: path.resolve(__dirname, "src"),
+        loader: "worker-loader",
+        options: { inline: "no-fallback" },
       },
       { test: /\.ttf$/, type: "asset/inline" },
       ...config.module.rules,
