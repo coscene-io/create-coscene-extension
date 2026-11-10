@@ -50,7 +50,7 @@ yarn pack --out package.tgz
 yarn test:e2e package.tgz --examples
 ```
 
-The verification script creates a fresh generated project and temporary copies of all eight examples, installs their dependencies, then overlays the current tarball without changing their manifests or locks. It builds development bundles, packages production `.coe` files, and evaluates them without a host React module. For the generated panel, it also checks message rendering, render completion, and repeated mount/unmount cycles in a DOM harness. It prints the temporary directory containing the artifacts for testing in Honeybee.
+The verification script creates a fresh generated project and temporary copies of all eight examples, installs their dependencies, then overlays the current tarball without changing their manifests or locks. It builds development bundles, packages production `.coe` files, and evaluates them without a host React module. For the generated panel and settings example, it also checks message rendering, render completion, and repeated mount/unmount cycles in a DOM harness, including nested JSON collapse and expansion. Editor, canvas, and worker interaction still require testing in Honeybee. The script prints the temporary directory containing the artifacts for that testing.
 
 Example manifests intentionally retain the published `create-coscene-extension@1.0.3` dependency so `npm ci` works before 1.1.0 is published. CI replaces it with the current tarball for acceptance. Do not change the examples to an unpublished registry version or commit local `file:` tarball references.
 

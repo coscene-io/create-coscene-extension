@@ -59,7 +59,7 @@ async function waitFor(predicate, description) {
   assert.fail(`Timed out waiting for ${description}`);
 }
 
-async function verifyBundle(source, mountTemplate) {
+async function verifyBundle(source, panelKind) {
   const errors = [];
   const rendererVersions = [];
   const virtualConsole = new VirtualConsole();
@@ -89,7 +89,7 @@ async function verifyBundle(source, mountTemplate) {
       throw new Error(`Unexpected external module: ${name}`);
     });
     assert.equal(typeof module.exports.activate, "function");
-    if (mountTemplate) {
+    if (panelKind) {
       let registration;
       module.exports.activate({ registerPanel: (panel) => (registration = panel) });
       assert.ok(registration);
@@ -97,8 +97,11 @@ async function verifyBundle(source, mountTemplate) {
       const subscriptions = [];
       const context = {
         panelElement: window.document.getElementById("panel"),
+        initialState: {},
         watch: (field) => watched.push(field),
         subscribe: (topics) => subscriptions.push(topics),
+        saveState() {},
+        updatePanelSettingsEditor() {},
       };
       for (let mount = 0; mount < 2; mount++) {
         const cleanup = registration.initPanel(context);
@@ -111,13 +114,34 @@ async function verifyBundle(source, mountTemplate) {
               { name: "/one", schemaName: "Example" },
               { name: "/two", schemaName: "Example" },
             ],
-            currentFrame: [],
+            currentFrame:
+              panelKind === "settings"
+                ? [{ topic: "/one", message: { nested: { value: "react19-json" } } }]
+                : [],
           },
           () => completed++,
         );
         await waitFor(() => completed === 1, "render completion");
-        assert.match(context.panelElement.textContent, /\/one/);
-        assert.match(context.panelElement.textContent, /\/two/);
+        if (panelKind === "template") {
+          assert.match(context.panelElement.textContent, /\/one/);
+          assert.match(context.panelElement.textContent, /\/two/);
+        } else {
+          assert.match(context.panelElement.textContent, /react19-json/);
+          const expanded = context.panelElement.querySelector(".expanded-icon");
+          assert.ok(expanded, "The JSON object must be expandable");
+          expanded.dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+          await waitFor(
+            () => !context.panelElement.textContent.includes("react19-json"),
+            "JSON object collapse",
+          );
+          const collapsed = context.panelElement.querySelector(".collapsed-icon");
+          assert.ok(collapsed);
+          collapsed.dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+          await waitFor(
+            () => context.panelElement.textContent.includes("react19-json"),
+            "JSON object expansion",
+          );
+        }
         cleanup();
         assert.equal(context.onRender, undefined);
         assert.equal(context.panelElement.childElementCount, 0);
@@ -134,12 +158,9 @@ async function verifyBundle(source, mountTemplate) {
   }
 }
 
-async function verifyProject(directory, mountTemplate) {
+async function verifyProject(directory, panelKind) {
   run("npm", ["run", "build"], directory);
-  await verifyBundle(
-    fs.readFileSync(path.join(directory, "dist/extension.js"), "utf8"),
-    mountTemplate,
-  );
+  await verifyBundle(fs.readFileSync(path.join(directory, "dist/extension.js"), "utf8"), panelKind);
   run("npm", ["run", "package"], directory);
   const archives = fs.readdirSync(directory).filter((file) => file.endsWith(".coe"));
   assert.equal(archives.length, 1);
@@ -147,7 +168,7 @@ async function verifyProject(directory, mountTemplate) {
   const manifest = JSON.parse(await archive.file("package.json").async("string"));
   const entry = archive.file(manifest.main.replace(/^\.\//, ""));
   assert.ok(entry, "The packaged entry point must exist");
-  await verifyBundle(await entry.async("string"), mountTemplate);
+  await verifyBundle(await entry.async("string"), panelKind);
   console.log(`Verified ${path.basename(directory)}: ${path.join(directory, archives[0])}`);
 }
 
@@ -176,7 +197,7 @@ async function main() {
   assert.ok(manifest.devDependencies["@coscene/extension"]);
   installCurrentCli(sample);
   run("npm", ["run", "lint:ci"], sample);
-  await verifyProject(sample, true);
+  await verifyProject(sample, "template");
 
   if (includeExamples) {
     const examples = path.join(repository, "examples");
@@ -193,7 +214,7 @@ async function main() {
       });
       run("npm", ["ci"], destination);
       installCurrentCli(destination);
-      await verifyProject(destination, false);
+      await verifyProject(destination, name === "panel-settings" ? "settings" : undefined);
     }
   }
   console.log(`All package checks passed. Artifacts: ${output}`);
