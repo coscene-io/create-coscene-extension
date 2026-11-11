@@ -1,6 +1,6 @@
 import { PanelExtensionContext, Topic, MessageEvent } from "@coscene/extension";
 import { CompressedImage } from "@foxglove/schemas";
-import { useLayoutEffect, useEffect, useState, useRef, useMemo } from "react";
+import { useLayoutEffect, useEffect, useState, useRef, useMemo, ReactElement } from "react";
 import { createRoot } from "react-dom/client";
 
 import DynamicIconComponent from "./DynamicIconComponent";
@@ -32,7 +32,7 @@ async function drawImageOnCanvas(imgData: Uint8Array, canvas: HTMLCanvasElement,
   ctx.resetTransform();
 }
 
-function ExamplePanel({ context }: { context: PanelExtensionContext }): JSX.Element {
+function ExamplePanel({ context }: { context: PanelExtensionContext }): ReactElement {
   const [topics, setTopics] = useState<readonly Topic[] | undefined>();
   const [message, setMessage] = useState<ImageMessage>();
 
@@ -93,6 +93,10 @@ function ExamplePanel({ context }: { context: PanelExtensionContext }): JSX.Elem
 
     context.watch("topics");
     context.watch("currentFrame");
+
+    return () => {
+      context.onRender = undefined;
+    };
   }, [context]);
 
   // Call our done function at the end of each render.

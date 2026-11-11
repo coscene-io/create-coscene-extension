@@ -1,14 +1,13 @@
 {
   "extends": "create-coscene-extension/tsconfig/tsconfig.json",
-  "include": [
-    "./src/**/*"
-  ],
+  "include": ["./src/**/*"],
+  // Webpack bundles these JavaScript entries outside TypeScript's source program.
+  // The matching .d.ts files describe the worker constructors used by the panel.
+  "exclude": ["src/*.worker.js"],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "lib": [
-      "dom"
-    ],
+    "lib": ["dom"],
     // Additional TypeScript error reporting checks are enabled by default to improve code quality.
     // Enable/disable these checks as necessary to suit your coding preferences or work with
     // existing code

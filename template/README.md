@@ -6,6 +6,8 @@
 
 Extension development uses the `npm` package manager to install development dependencies and run build scripts.
 
+This panel uses React 19.3.1 and the `@coscene/extension` SDK. React and ReactDOM are bundled with the extension; keep them at matching versions and do not externalize them to the host. The panel creates its own root and returns an unmount callback from `initExamplePanel`.
+
 To install extension dependencies, run `npm` from the root of the extension package.
 
 ```sh
