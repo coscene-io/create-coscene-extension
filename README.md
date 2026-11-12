@@ -97,6 +97,28 @@ yarn pack --out package.tgz
 yarn test:e2e package.tgz --examples
 ```
 
+### Publishing This Package
+
+Package releases use [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/)
+with GitHub Actions OIDC instead of a long-lived npm token. A package maintainer must
+configure the following GitHub Actions trusted publisher in the npm package settings:
+
+- Organization or user: `coscene-io`
+- Repository: `create-coscene-extension`
+- Workflow filename: `npm-publish.yml`
+- Environment: leave unset; the publish job does not use a GitHub environment
+- Allowed actions: enable direct publishing with `npm publish`
+
+The workflow uses a GitHub-hosted runner, Node.js 24, and `id-token: write`. Trusted
+publishing requires npm 11.5.1 or newer. No `NPM_ORG_TOKEN` secret or `NODE_AUTH_TOKEN`
+environment variable is needed for publishing.
+
+To release, update `package.json` and publish a GitHub Release whose tag matches
+`v<package.json version>`. The workflow runs validation before publishing with
+provenance. Stable versions use the `latest` npm tag; prereleases use `next`.
+If publishing fails after validation succeeds, rerun the failed job for that release;
+do not move its tag to a different commit.
+
 ### Build and Run Locally
 
 Build the `create-coscene-extension` package locally with:

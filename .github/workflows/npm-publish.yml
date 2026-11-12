@@ -15,7 +15,8 @@ jobs:
 
     permissions:
       contents: read
-      # https://docs.npmjs.com/generating-provenance-statements#publishing-packages-with-provenance-via-github-actions
+      # Required for npm trusted publishing and provenance.
+      # https://docs.npmjs.com/trusted-publishers/
       id-token: write
 
     steps:
@@ -46,6 +47,5 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `tag=${version.includes('-') ? 'next' : 'latest'}\n`);
           NODE
 
-      - run: npm publish --provenance --access public --tag "${{ steps.release.outputs.tag }}"
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_ORG_TOKEN}}
+      - name: Publish to npm with OIDC
+        run: npm publish --provenance --access public --tag "${{ steps.release.outputs.tag }}"
